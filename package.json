@@ -58,7 +58,8 @@
     "development": "concurrently \"npm run database\" \"npm run server\" \"npm start\" ",
     "production": "set NODE_ENV=production && concurrently \"npm run build\" \"npm run database\" \"npm run server\" ",
     "heroku-postbuild": "react-scripts build",
-    "start": "node api/app.js"
+    "start": "node api/app.js",
+    "docker:production": "docker compose up --build -d"
   },
   "devDependencies": {
     "chance": "^1.0.13",
