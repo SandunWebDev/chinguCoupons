@@ -85,7 +85,7 @@ async function addMockData(req, res) {
           null,
           null,
           null,
-          faker.image.avatar()
+          faker.image.avatar(),
         ]);
         user.createdAt = faker.date.past();
         // savedCoupons and favouriteStores are added later
@@ -96,11 +96,11 @@ async function addMockData(req, res) {
 
     // Inserting mockdata into Store Collection
     await Promise.all(
-      repeat(30).map(async () => {
+      repeat(30).map(async (_, index) => {
         let store = new Store();
         store.name = faker.address.city();
         store.description = faker.lorem.sentences();
-        store.logoUrl = `https://source.unsplash.com/500x500/?${chance.character({pool: 'abcdefghijklmnopqrstuvwxyz'})}`;
+        store.logoUrl =  `https://picsum.photos/id/${index}/500/500`;
         store.storeUrl = "https://abc.com/";
         // Later some other categories also gonna added here based on available coupons
         store.categories = fromFakerList(fakeCategories, 0, 4);
@@ -117,7 +117,7 @@ async function addMockData(req, res) {
 
     // Inserting mockdata into Coupon Collection
     await Promise.all(
-      repeat(30).map(async () => {
+      repeat(30).map(async (_, index) => {
         let coupon = new Coupon();
         coupon.kind = chance.pickone(["coupon", "deal"]);
         coupon.category = fromFakerList(fakeCategories, 0, 2);
@@ -142,7 +142,7 @@ async function addMockData(req, res) {
         //   null,
         //   `https://source.unsplash.com/500x500/?${chance.character()}`
         // ]);
-        coupon.imgUrl = `https://source.unsplash.com/500x500/?${chance.character({pool: 'abcdefghijklmnopqrstuvwxyz'})}`;
+        coupon.imgUrl = `https://picsum.photos/id/${index}/500/500`;
         coupon.createdAt = faker.date.past();
         coupon.expiredAt = faker.date.future();
 
@@ -150,7 +150,7 @@ async function addMockData(req, res) {
         coupon.addedBy = {
           userId: chance.pickone(userIdList)._id,
           createdAt: coupon.createdAt // Making sure coupon addedBy date same as coupon created date.
-        };
+        };  
 
         // Making sure only some of coupon are approved.
         if (chance.bool()) {

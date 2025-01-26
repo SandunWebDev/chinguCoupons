@@ -25,4 +25,5 @@ database/*
 !database
 !database/README.TXT
 
+.git
 .env

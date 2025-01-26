@@ -1,0 +1,26 @@
+services:
+  chingu__frontend:
+    build: .
+    image: chingu__frontend
+    container_name: chingu__frontend
+    restart: unless-stopped
+    ports:
+      - '80:${PORT}'
+    environment:
+      - NODE_ENV
+      - PORT
+      - SESSION_SECRET
+      - DB_PATH
+      - CORS_WHITELIST
+    depends_on:
+      - mongodb-server
+
+  mongodb-server:
+    image: mongo:4.0
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata:/data/db
+
+volumes:
+  dbdata:

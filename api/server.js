@@ -13,23 +13,18 @@ const initPassport = require("./passport/init");
 // const routes = require("./routes/index")(passport);
 const routes = require("./routes/index");
 
-// // Connect to DB-Local:
-// NOTE: Uncomment below line if you want to save data locally
-mongoose
-  .connect(config.db.atlas)
+// Connecting to DB
+mongoose.connect(config.dbPath)
   .then(db => console.log("Database Successfully Connected"))
   .catch(err => console.log("Database Connection Failed\n", err));
 
-// Connect to DB-Cloud
-// NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
-//mongoose.connect(config.db.mlab);
 
 // Setting up view engine. If decided to use view engine add views to "view" folder.
 app.set("view engine", "ejs");
 
 // Setting up CORS
 const corsOptions = {
-  origin: ["*", "http://localhost:3000", "https://chingu-coupons.herokuapp.com"], // List of host authorized make cors request. For cross origin cookies specific host should be given. (ex:"http://localhost:3000")
+  origin: config.corsWhiteList, // List of host authorized make cors request. For cross origin cookies specific host should be given. (ex:"http://localhost:3000")
   credentials: true // Must enable for cross origin cookies.
 };
 app.use(cors(corsOptions));
