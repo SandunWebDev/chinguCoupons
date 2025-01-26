@@ -13,6 +13,8 @@ const initPassport = require("./passport/init");
 // const routes = require("./routes/index")(passport);
 const routes = require("./routes/index");
 
+const SQLiteStore = require('connect-sqlite3')(session);
+
 // Connecting to DB
 mongoose.connect(config.dbPath)
   .then(db => console.log("Database Successfully Connected"))
@@ -36,6 +38,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../", "build"))); // Serving build version of react app
 app.use(
   session({
+    store: new SQLiteStore,
     secret: config.sessionSecret,
     resave: false, // forces sesseion to be saved even when there was no change
     saveUninitialized: false // forces uninitialized sessions to be saved
